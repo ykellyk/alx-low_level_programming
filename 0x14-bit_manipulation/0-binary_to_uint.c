@@ -1,34 +1,39 @@
-#include <stddef.h>
 #include "main.h"
 
-int check_valid_string(const char *b)
-{
-	if (b == NULL)
-		return (0);
-	while (*b)
-	{
-		if (*b != '1' && *b != '0')
-			return (0);
-		b++;
-	}
-	return (1);
-}
-
+/**
+ * binary_to_uint - converts a binary number to an unsigned int
+ * @b: b is pointing to a string of 0 and 1 chars
+ *
+ * Return: Converted number or 0 if
+ * there is one or more chars in the string b that is not 0 or 1
+ * or if b is NULL
+ */
 unsigned int binary_to_uint(const char *b)
 {
-	unsigned int decimal = 0;
-	int str_len = 0, base = 1;
+	unsigned int res = 0, one, i;
+	int l = 0;
 
-	if (!check_valid_string(b))
+	if (b == 0)
 		return (0);
-	while (b[str_len] != '\0')
-		str_len++;
-	while (str_len)
+
+
+	while (b[l] != 0)
 	{
-		decimal += ((b[str_len - 1] - '0') * base);
-		base *= 2;
-		str_len--;
+		if (b[l] != '0' && b[l] != '1')
+			return (0);
+		l++;
 	}
 
-	return (decimal);
+	l = l - 1;
+
+	for (i = 0; l >= 0; i++, l--)
+	{
+		if (b[l] == '0')
+			one = 0;
+		else if (b[l] == '1')
+			one = 1;
+		one = one << i;
+		res = res | one;
+	}
+	return (res);
 }
