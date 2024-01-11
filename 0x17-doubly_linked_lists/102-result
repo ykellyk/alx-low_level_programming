@@ -1,29 +1,42 @@
-#include "lists.h"
+#include <stdlib.h>
 #include <stdio.h>
-void main (void) 
-{
-	unsigned long i = 998001; /* 999 * 999 */
-	unsigned long a = 999, b = 999, max = 0;
-	unsigned long res1 = 0, res2 = 1, n = 0;
+#include "lists.h"
 
-	for (; a > 99; a--)
+#include <string.h>
+
+void convertIntToString(int num, char *str)
+{
+    sprintf(str, "%d", num);
+}
+
+void print_result(void)
+{
+	int a, b, prev = 0;
+	char *result = malloc(sizeof(char) * 10);
+
+	for (a = 100; a <= 999; a++)
 	{
-		for (b = 999; b > 99; b--)
+		for (b = 999; b >= 100; b--)
 		{
-			i = a * b;
-			res1 = i / 1000;
-			n = i;
-			res2 = (n % 10) * 100;
-			n = i / 10;
-			res2 += (n % 10) * 10;
-			n = n / 10;
-			res2 += (n % 10);
-			if (res1 == res2)
+			sprintf(result, "%d", (a * b));
+			if (is_palindrome(result))
 			{
-				if (max < i)
-					max = i;
+				if (atoi(result) > prev)
+				{
+					prev = atoi(result);
+					printf("palindrome is %s\n", result);
+					printf("%d * %d\n", a, b);
+				}
 			}
+			memset(result, 0, 10);
 		}
 	}
-	printf("%lu\n", max);
+	free(result);
+	return;
+}
+
+int main(void)
+{
+	print_result();
+	return (0);
 }
